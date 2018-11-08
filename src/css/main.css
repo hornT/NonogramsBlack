@@ -1,0 +1,62 @@
+:root {
+    --cell-size: 20px;
+}
+
+#dropZone.hover {
+    background: #ddd;
+    border-color: #aaa;
+  }
+  #dropZone.error {
+    background: #faa;
+    border-color: #f00;
+  }
+  #dropZone.drop {
+    background: #afa;
+    border-color: #0f0;
+  }
+  .input-file {
+    visibility: hidden;
+  }
+  .drop-zone {
+    cursor: pointer;
+    height: 70px;
+    font-size: 1.5em;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.puzzle {
+
+}
+.puzzle table {
+
+}
+.puzzle table td {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    min-width: var(--cell-size);
+    min-height: var(--cell-size);
+}
+
+table {
+    border-collapse: collapse;
+}
+table, td {
+    border: 1px solid black;
+}
+td div{
+    text-align: center;
+    width: var(--cell-size);
+    /* height: var(--cell-size);
+    min-width: var(--cell-size);
+    min-height: var(--cell-size); */
+}
+tr:first-child td{
+    vertical-align: bottom;
+}
+td:first-child span{
+    display: flex;
+    justify-content: flex-end;
+}
