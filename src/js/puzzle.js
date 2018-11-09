@@ -8,6 +8,12 @@ class Puzzle{
         this._parsePuzzle(puzzleText);
     }
 
+    Solve(){
+
+        this._createEmptyCells();
+        this._solve();
+    }
+
     _parsePuzzle(puzzleText){
 
         const lines = puzzleText
@@ -43,7 +49,6 @@ class Puzzle{
 
         this.RowsInfo = lines
             .splice(0, this.RowCount)
-            //.map(parseInt);
             .map(this._parseCellsInfo.bind(this));
     }
 
@@ -51,7 +56,6 @@ class Puzzle{
 
         this.ColumnsInfo = lines
             .splice(0, this.ColumnCount)
-            //.map(parseInt);
             .map(this._parseCellsInfo.bind(this));
     }
 
@@ -59,12 +63,12 @@ class Puzzle{
 
         const s = cellsInfo.split(' ');
 
-        return s.map(x => parseInt(x))
-    }
-
-    Solve(){
-
-        this._createEmptyCells();
+        return s.map(function(elem) {
+            return {
+                Count: parseInt(elem),
+                Solve: false
+            } 
+          });
     }
 
     _createEmptyCells(){
@@ -77,9 +81,18 @@ class Puzzle{
             for (let j = 0; j < this.ColumnCount; j++) {
                 this.Cells[i][j] = {
                     Fill: false
-                    //Info: this.RowsInfo[i].ColorBits & this.ColumnsInfo[j].ColorBits
                 }
             }
         }
+    }
+
+    _solve(){
+        for (let i = 0; i < this.RowCount; i++) {
+            this._solveRow(i);
+        }
+    }
+
+    _solveRow(i){
+        const rowInfo = this.RowsInfo[i];
     }
 }

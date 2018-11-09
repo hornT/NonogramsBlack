@@ -91,7 +91,7 @@ function drawSolvedPuzzle(puzzle){
         for (let j = 0; j < puzzle.ColumnCount; j++){
             let cell = document.createElement('td');
 
-            if(puzzle.Cells[i][j].Info.Fill === true){ // TODO
+            if(puzzle.Cells[i][j].Fill === true){ // TODO
                 cell.style.backgroundColor = 'black'; // TODO
             }
 
@@ -130,7 +130,7 @@ function createCellInfo(info){
         
         let div = document.createElement('div');
 
-        div.innerHTML = info[j];
+        div.innerHTML = info[j].Count;
 
         span.appendChild(div);
         
