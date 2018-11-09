@@ -90,8 +90,10 @@ function drawSolvedPuzzle(puzzle){
 
         for (let j = 0; j < puzzle.ColumnCount; j++){
             let cell = document.createElement('td');
-            cell.style.backgroundColor = puzzle.Cells[i][j].Color;
-            cell.innerHTML = puzzle.Cells[i][j].Info; // TODO
+
+            if(puzzle.Cells[i][j].Info.Fill === true){ // TODO
+                cell.style.backgroundColor = 'black'; // TODO
+            }
 
             row.appendChild(cell);
         }
@@ -124,12 +126,11 @@ function createCellInfo(info){
     const cell = document.createElement('td');
     const span = document.createElement('span');
     
-    for(let j = 0; j < info.Groups.length; j++){
+    for(let j = 0; j < info.length; j++){
         
         let div = document.createElement('div');
 
-        div.innerHTML = info.Groups[j].Count;
-        div.style.backgroundColor = info.Groups[j].Color;
+        div.innerHTML = info[j];
 
         span.appendChild(div);
         

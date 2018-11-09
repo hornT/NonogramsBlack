@@ -24,18 +24,9 @@ class Puzzle{
          * Rows and Columns: array of numbers (len block)
          */
 
-        this._parseColors(lines);
         this._parseGridSize(lines);
         this._parseRows(lines);
         this._parseColumns(lines);
-    }
-
-    _parseColors(lines){
-
-        const colorsCount = parseInt(lines[0]);
-        lines.splice(0, 1); // Удаляем строку с количеством цветов
-
-        this.Colors = lines.splice(0, colorsCount);
     }
 
     _parseGridSize(lines){
@@ -45,13 +36,14 @@ class Puzzle{
         this.RowCount = parseInt(rc[0]);
         this.ColumnCount = parseInt(rc[1]);
 
-        lines.splice(0, 1); // Удаляем строку с размером таблицы
+        lines.splice(0, 1);
     }
 
     _parseRows(lines){
 
         this.RowsInfo = lines
             .splice(0, this.RowCount)
+            //.map(parseInt);
             .map(this._parseCellsInfo.bind(this));
     }
 
@@ -59,6 +51,7 @@ class Puzzle{
 
         this.ColumnsInfo = lines
             .splice(0, this.ColumnCount)
+            //.map(parseInt);
             .map(this._parseCellsInfo.bind(this));
     }
 
@@ -66,46 +59,7 @@ class Puzzle{
 
         const s = cellsInfo.split(' ');
 
-        const count = parseInt(s[0]);
-        const groups = new Array(count);
-        
-        for (let i = 0; i < count; i++) {
-
-            let left = i * 4 + 1;
-            let groupInfo = s.slice(left, left + 4);
-
-            groups[i] = this._parseGroupInfo(groupInfo);
-        }
-
-        const colorBits = groups
-            .map(g => g.ColorIndex)
-            .filter(onlyUnique)
-            .reduce((prev, curr) => prev | (1 << curr), 0);
-
-        return {
-            Groups: groups,
-            ColorBits: colorBits
-        };
-    }
-
-    _parseGroupInfo(groupInfo){
-
-        let cellCount = parseInt(groupInfo[0]);
-        let r = parseInt(groupInfo[1]);
-        let g = parseInt(groupInfo[2]);
-        let b = parseInt(groupInfo[3]);
-        let hexColor = rgbToHex(r, g, b);
-
-        return {
-            Count: cellCount,
-            Color: hexColor,
-            ColorIndex: this._getColorIndex(hexColor)
-        };
-    }
-
-    _getColorIndex(hexColor){
-
-        return this.Colors.indexOf(hexColor);
+        return s.map(x => parseInt(x))
     }
 
     Solve(){
@@ -122,7 +76,8 @@ class Puzzle{
 
             for (let j = 0; j < this.ColumnCount; j++) {
                 this.Cells[i][j] = {
-                    Info: this.RowsInfo[i].ColorBits & this.ColumnsInfo[j].ColorBits
+                    Fill: false
+                    //Info: this.RowsInfo[i].ColorBits & this.ColumnsInfo[j].ColorBits
                 }
             }
         }
