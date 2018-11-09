@@ -55,7 +55,7 @@ function fileChange(e) {
 }
 
 /**
- * Загрузка файла
+ * File load
  * @param {any} e
  * @param {any} fileName
  */

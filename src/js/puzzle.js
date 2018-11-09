@@ -16,17 +16,12 @@ class Puzzle{
             .filter(l => l !== '');
 
         /**
-         * Формат файла:
-         * n - количество цветов
-         * n строк с hex цветами
-         * x y размер сетки
-         * x строк - с описанием строк
-         * y строк - с описанием столбцов
+         * Format:
+         * x y size
+         * x lines - rows description
+         * y lines - columns description
          * 
-         * Столбцы и строки:
-         * n - количество клеток
-         * клетка - l r g b
-         * l - длина, rgb цвет в int формате
+         * Rows and Columns: array of numbers (len block)
          */
 
         this._parseColors(lines);
