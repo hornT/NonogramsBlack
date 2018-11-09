@@ -40,7 +40,7 @@ class Puzzle{
     }
 
     _solveColumn(i){
-        const columnInfo = this.ColumnInfo[i];
+        const columnInfo = this.ColumnsInfo[i];
         const column = this.Cells.map(row => row[i]);
     }
 }
