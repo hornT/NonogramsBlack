@@ -17,7 +17,7 @@ class Puzzle{
 
         /**
          * Format:
-         * x y size
+         * x y size (x - rows count, y - column count)
          * x lines - rows description
          * y lines - columns description
          * 
