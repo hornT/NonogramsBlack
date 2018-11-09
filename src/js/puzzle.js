@@ -3,10 +3,10 @@
 
 class Puzzle{
 
-    constructor(puzzleText){
+    // constructor(puzzleText){
 
-        this._parsePuzzle(puzzleText);
-    }
+    //     //this._parsePuzzle(puzzleText);
+    // }
 
     Solve(){
 
@@ -14,62 +14,62 @@ class Puzzle{
         this._solve();
     }
 
-    _parsePuzzle(puzzleText){
+    // _parsePuzzle(puzzleText){
 
-        const lines = puzzleText
-            .split('\n')
-            .map(s => s.replace('\r', ''))
-            .filter(l => l !== '');
+    //     const lines = puzzleText
+    //         .split('\n')
+    //         .map(s => s.replace('\r', ''))
+    //         .filter(l => l !== '');
 
-        /**
-         * Format:
-         * x y size (x - rows count, y - column count)
-         * x lines - rows description
-         * y lines - columns description
-         * 
-         * Rows and Columns: array of numbers (len block)
-         */
+    //     /**
+    //      * Format:
+    //      * x y size (x - rows count, y - column count)
+    //      * x lines - rows description
+    //      * y lines - columns description
+    //      * 
+    //      * Rows and Columns: array of numbers (len block)
+    //      */
 
-        this._parseGridSize(lines);
-        this._parseRows(lines);
-        this._parseColumns(lines);
-    }
+    //     this._parseGridSize(lines);
+    //     this._parseRows(lines);
+    //     this._parseColumns(lines);
+    // }
 
-    _parseGridSize(lines){
+    // _parseGridSize(lines){
 
-        const rc = lines[0].split(' ');
+    //     const rc = lines[0].split(' ');
 
-        this.RowCount = parseInt(rc[0]);
-        this.ColumnCount = parseInt(rc[1]);
+    //     this.RowCount = parseInt(rc[0]);
+    //     this.ColumnCount = parseInt(rc[1]);
 
-        lines.splice(0, 1);
-    }
+    //     lines.splice(0, 1);
+    // }
 
-    _parseRows(lines){
+    // _parseRows(lines){
 
-        this.RowsInfo = lines
-            .splice(0, this.RowCount)
-            .map(this._parseCellsInfo.bind(this));
-    }
+    //     this.RowsInfo = lines
+    //         .splice(0, this.RowCount)
+    //         .map(this._parseCellsInfo.bind(this));
+    // }
 
-    _parseColumns(lines){
+    // _parseColumns(lines){
 
-        this.ColumnsInfo = lines
-            .splice(0, this.ColumnCount)
-            .map(this._parseCellsInfo.bind(this));
-    }
+    //     this.ColumnsInfo = lines
+    //         .splice(0, this.ColumnCount)
+    //         .map(this._parseCellsInfo.bind(this));
+    // }
 
-    _parseCellsInfo(cellsInfo){
+    // _parseCellsInfo(cellsInfo){
 
-        const s = cellsInfo.split(' ');
+    //     const s = cellsInfo.split(' ');
 
-        return s.map(function(elem) {
-            return {
-                Count: parseInt(elem),
-                Solve: false
-            } 
-          });
-    }
+    //     return s.map(function(elem) {
+    //         return {
+    //             Count: parseInt(elem),
+    //             Solve: false
+    //         } 
+    //       });
+    // }
 
     _createEmptyCells(){
 

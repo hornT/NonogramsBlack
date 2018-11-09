@@ -64,7 +64,8 @@ function onFileLoad(e, fileName) {
     const data = e.target.result;
     const fileText = atob(data.split(',')[1]);
 
-    const puzzle = new Puzzle(fileText);
+    const parser = new Parser();
+    const puzzle = parser.Parse(fileText);
 
     puzzle.Solve();
     drawSolvedPuzzle(puzzle);
