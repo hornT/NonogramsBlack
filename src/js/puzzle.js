@@ -28,9 +28,19 @@ class Puzzle{
         for (let i = 0; i < this.RowCount; i++) {
             this._solveRow(i);
         }
+
+        for (let i = 0; i < this.ColumnCount; i++) {
+            this._solveColumn(i);
+        }
     }
 
     _solveRow(i){
         const rowInfo = this.RowsInfo[i];
+        const row = this.Cells[i];
+    }
+
+    _solveColumn(i){
+        const columnInfo = this.ColumnInfo[i];
+        const column = this.Cells.map(row => row[i]);
     }
 }
