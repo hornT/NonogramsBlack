@@ -57,10 +57,11 @@ class Parser{
 
         const s = cellsInfo.split(' ');
 
-        return s.map(function(elem) {
+        return s.map(function(elem, index) {
             return {
                 Count: parseInt(elem),
-                Solve: false
+                Index: index
+                //Solve: false
             } 
         });
     }

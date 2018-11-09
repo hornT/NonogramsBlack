@@ -92,7 +92,7 @@ function drawSolvedPuzzle(puzzle){
         for (let j = 0; j < puzzle.ColumnCount; j++){
             let cell = document.createElement('td');
 
-            if(puzzle.Cells[i][j].Fill === true){ // TODO
+            if(puzzle.Cells[i][j].State === StateEnum.Fill){
                 cell.style.backgroundColor = 'black'; // TODO
             }
 
