@@ -42,6 +42,8 @@ class Puzzle{
         const row = this._getRow(i);
 
         const solvedCells = this._trySolve(rowInfo, row);
+
+        this._setSolvedCellsInRow(i, solvedCells);
     }
 
     _solveColumn(i){
@@ -49,14 +51,32 @@ class Puzzle{
         const column = this._getColumn(i);
 
         const solvedCells = this._trySolve(columnInfo, column);
+
+        this._setSolvedCellsInColumn(i, solvedCells);
     }
 
     _getRow(i){
         return [...this.Cells[i]];
     }
+    _setSolvedCellsInRow(rowNum, solvedRow){
+        const row = this.Cells[rowNum];
+
+        for(let i = 0; i < row.length; i++){
+            if(solvedRow[i] === true){
+                row[i].State = StateEnum.Fill;
+            }
+        }
+    }
 
     _getColumn(i){
         return this.Cells.map(row => row[i]);
+    }
+    _setSolvedCellsInColumn(columnNum, solvedColumn){
+        for(let i = 0; i < solvedColumn.length; i++){
+            if(solvedColumn[i] === true){
+                this.Cells[i][columnNum].State = StateEnum.Fill;
+            }
+        }
     }
 
     _trySolve(groups, cells){
@@ -66,6 +86,18 @@ class Puzzle{
 
         const leftSide = this._getSideCells(groups, cells);
         const rightSide = this._getSideCells(reverseGroups, reverseCells).reverse();
+
+        const ln = cells.length;
+        const result = new Array(ln);
+
+        for(let i = 0; i < cells.length; i++){
+            if(leftSide[i] == null || rightSide[i] == null){
+                continue;
+            }
+            result[i] = leftSide[i] === rightSide[i];
+        }
+
+        return result;
     }
 
     _getSideCells(groups, cells){
