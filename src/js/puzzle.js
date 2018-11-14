@@ -28,26 +28,32 @@ class Puzzle{
     }
 
     _solve(){
-        for (let i = 0; i < this.RowCount; i++) {
-            this._solveRow(i);
-        }
+        let needContinue = false;
 
-        for (let i = 0; i < this.ColumnCount; i++) {
-            this._solveColumn(i);
-        }
+        do{
+            needContinue = false;
+            
+            for (let i = 0; i < this.RowCount; i++) {
+                needContinue |= this._solveRow(i);
+            }
+    
+            for (let i = 0; i < this.ColumnCount; i++) {
+                needContinue |= this._solveColumn(i);
+            }
+        } while(needContinue);
     }
 
     _solveRow(i){
         const rowInfo = this.RowsInfo[i];
         const row = this._getRow(i);
 
-        this._trySolve(rowInfo, row);
+        return this._trySolve(rowInfo, row);
     }
     _solveColumn(i){
         const columnInfo = this.ColumnsInfo[i];
         const column = this._getColumn(i);
 
-        this._trySolve(columnInfo, column);
+        return this._trySolve(columnInfo, column);
     }
 
     _getRow(i){
@@ -58,13 +64,16 @@ class Puzzle{
     }
 
     _trySolve(groups, cells){
+        let needContinue = false;
 
-        
+        needContinue |= this._findByTwoSide(groups, cells);
 
-        this._findByTwoSide(groups, cells);
+        return needContinue;
     }
 
     _findByTwoSide(groups, cells){
+        let needContinue = false;
+
         const reverseGroups = [...groups].reverse();
         const reverseCells = [...cells].reverse();
 
@@ -74,14 +83,17 @@ class Puzzle{
         const ln = cells.length;
 
         for(let i = 0; i < ln; i++){
-            if(leftSide[i] == null || rightSide[i] == null){
+            if(leftSide[i] == null || rightSide[i] == null || cells[i].State !== StateEnum.None){
                 continue;
             }
 
             if(leftSide[i] === rightSide[i]){
                 cells[i].State = StateEnum.Fill;
+                needContinue = true;
             }
         }
+
+        return needContinue;
     }
     _getSideCells(groups, cells){
         let index = 0;

@@ -91,9 +91,15 @@ function drawSolvedPuzzle(puzzle){
 
         for (let j = 0; j < puzzle.ColumnCount; j++){
             let cell = document.createElement('td');
+            let cellState = puzzle.Cells[i][j].State;
 
-            if(puzzle.Cells[i][j].State === StateEnum.Fill){
-                cell.style.backgroundColor = 'black'; // TODO
+            switch(cellState){
+                case StateEnum.Fill:
+                    cell.style.backgroundColor = 'black';
+                    break;
+                case StateEnum.Empty:
+                    cell.style.backgroundColor = 'grey';
+                    break;
             }
 
             row.appendChild(cell);
