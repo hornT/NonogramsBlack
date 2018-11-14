@@ -59,6 +59,12 @@ class Puzzle{
 
     _trySolve(groups, cells){
 
+        
+
+        this._findByTwoSide(groups, cells);
+    }
+
+    _findByTwoSide(groups, cells){
         const reverseGroups = [...groups].reverse();
         const reverseCells = [...cells].reverse();
 
@@ -66,26 +72,17 @@ class Puzzle{
         const rightSide = this._getSideCells(reverseGroups, reverseCells).reverse();
 
         const ln = cells.length;
-        const solvedCells = new Array(ln);
 
-        for(let i = 0; i < cells.length; i++){
+        for(let i = 0; i < ln; i++){
             if(leftSide[i] == null || rightSide[i] == null){
                 continue;
             }
-            solvedCells[i] = leftSide[i] === rightSide[i];
-        }
 
-        this._setSolved(cells, solvedCells)
-    }
-
-    _setSolved(cells, solvedCells){
-        for(let i = 0; i < cells.length; i++){
-            if(solvedCells[i] === true){
+            if(leftSide[i] === rightSide[i]){
                 cells[i].State = StateEnum.Fill;
             }
         }
     }
-
     _getSideCells(groups, cells){
         let index = 0;
         const side = new Array(cells.length);
@@ -103,7 +100,6 @@ class Puzzle{
 
         return side;
     }
-
     _findLeftIndex(groupLength, cells, fromIndex){
 
         for(let i = fromIndex; i < cells.length - groupLength + 1; i++){
