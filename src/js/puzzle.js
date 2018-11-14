@@ -41,42 +41,20 @@ class Puzzle{
         const rowInfo = this.RowsInfo[i];
         const row = this._getRow(i);
 
-        const solvedCells = this._trySolve(rowInfo, row);
-
-        this._setSolvedCellsInRow(i, solvedCells);
+        this._trySolve(rowInfo, row);
     }
-
     _solveColumn(i){
         const columnInfo = this.ColumnsInfo[i];
         const column = this._getColumn(i);
 
-        const solvedCells = this._trySolve(columnInfo, column);
-
-        this._setSolvedCellsInColumn(i, solvedCells);
+        this._trySolve(columnInfo, column);
     }
 
     _getRow(i){
-        return [...this.Cells[i]];
+        return this.Cells[i];
     }
-    _setSolvedCellsInRow(rowNum, solvedRow){
-        const row = this.Cells[rowNum];
-
-        for(let i = 0; i < row.length; i++){
-            if(solvedRow[i] === true){
-                row[i].State = StateEnum.Fill;
-            }
-        }
-    }
-
     _getColumn(i){
         return this.Cells.map(row => row[i]);
-    }
-    _setSolvedCellsInColumn(columnNum, solvedColumn){
-        for(let i = 0; i < solvedColumn.length; i++){
-            if(solvedColumn[i] === true){
-                this.Cells[i][columnNum].State = StateEnum.Fill;
-            }
-        }
     }
 
     _trySolve(groups, cells){
@@ -88,16 +66,24 @@ class Puzzle{
         const rightSide = this._getSideCells(reverseGroups, reverseCells).reverse();
 
         const ln = cells.length;
-        const result = new Array(ln);
+        const solvedCells = new Array(ln);
 
         for(let i = 0; i < cells.length; i++){
             if(leftSide[i] == null || rightSide[i] == null){
                 continue;
             }
-            result[i] = leftSide[i] === rightSide[i];
+            solvedCells[i] = leftSide[i] === rightSide[i];
         }
 
-        return result;
+        this._setSolved(cells, solvedCells)
+    }
+
+    _setSolved(cells, solvedCells){
+        for(let i = 0; i < cells.length; i++){
+            if(solvedCells[i] === true){
+                cells[i].State = StateEnum.Fill;
+            }
+        }
     }
 
     _getSideCells(groups, cells){
