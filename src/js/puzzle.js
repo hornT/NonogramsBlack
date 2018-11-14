@@ -47,13 +47,13 @@ class Puzzle{
         const rowInfo = this.RowsInfo[i];
         const row = this._getRow(i);
 
-        return this._trySolve(rowInfo, row);
+        return this._findByTwoSide(rowInfo, row);
     }
     _solveColumn(i){
         const columnInfo = this.ColumnsInfo[i];
         const column = this._getColumn(i);
 
-        return this._trySolve(columnInfo, column);
+        return this._findByTwoSide(columnInfo, column);
     }
 
     _getRow(i){
@@ -61,21 +61,18 @@ class Puzzle{
     }
     _getColumn(i){
         return this.Cells.map(row => row[i]);
-    }
-
-    _trySolve(groups, cells){// TODO remove and use _findByTwoSide
-        let needContinue = false;
-
-        needContinue |= this._findByTwoSide(groups, cells);
-
-        return needContinue;
-    }
+    }  
 
     _findByTwoSide(groups, cells){
         let needContinue = false;
 
         const reverseGroups = [...groups].reverse();
         const reverseCells = [...cells].reverse();
+
+        const firstUnsolvedGroup = groups[0]; // TODO
+        const firstUnsolvedGroupR = reverseGroups[0]; // TODO
+        needContinue |= this._fillPossibleCells(firstUnsolvedGroup, cells);
+        needContinue |= this._fillPossibleCells(firstUnsolvedGroupR, reverseCells);
 
         const leftSide = this._getSideCells(groups, cells);
         const rightSide = this._getSideCells(reverseGroups, reverseCells).reverse();
@@ -91,6 +88,35 @@ class Puzzle{
                 cells[i].State = StateEnum.Fill;
                 needContinue = true;
             }
+        }
+
+        return needContinue;
+    }
+    _fillPossibleCells(group, cells){
+        let needContinue = false;
+        const groupLength = group.Count;
+
+        for(let i = 0; i < cells.length - groupLength + 1; i++){
+
+            if(cells[i].State === StateEnum.Empty){
+                continue;
+            }
+
+            let fillNext = false;
+            for(let j = 0; j < groupLength; j++){
+                let cell = cells[i + j];
+
+                if(fillNext === true){
+                    if(cell.State !== StateEnum.Fill){
+                        cell.State = StateEnum.Fill;
+                        needContinue = true;
+                    }
+                } else if(cell.State === StateEnum.Fill){
+                    fillNext = true;
+                }
+            }
+
+            return needContinue;
         }
 
         return needContinue;
@@ -127,15 +153,14 @@ class Puzzle{
             // if rigth cell is Fill
             if(founded === true){
                 const rigthCell = cells[i + groupLength];
-                if(rigthCell && rigthCell.State === StateEnum.Fill)
-                    {
-                        founded = false;
-                        // make left cell as Empty
-                        const leftCell = cells[i];
-                        if(leftCell && groupNum === 0){ // TODO
-                            leftCell.State = StateEnum.Empty
-                        }
-                    }
+                if(rigthCell && rigthCell.State === StateEnum.Fill){
+                    founded = false;
+                    // // make left cell as Empty
+                    // const leftCell = cells[i];
+                    // if(leftCell && groupNum === 0){ // TODO
+                    //     leftCell.State = StateEnum.Empty
+                    // }
+                }
             }
 
             if(founded === true)
