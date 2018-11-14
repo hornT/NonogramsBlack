@@ -114,6 +114,27 @@ class Puzzle{
                 } else if(cell.State === StateEnum.Fill){
                     fillNext = true;
                 }
+
+                if(cell.State === StateEnum.Empty){// TODO
+                    needContinue = true;
+
+                    for(let k = 0; k < j; k++){
+                        cells[i + k].State = StateEnum.Empty;
+                    }
+
+                    i = i + j;// TODO check
+                    break;
+                }
+            }
+
+            const rigthCell = cells[i + groupLength];
+            if(rigthCell && rigthCell.State === StateEnum.Fill){
+                // make left cell as Empty
+                const leftCell = cells[i];
+                if(leftCell){
+                    needContinue = true;
+                    leftCell.State = StateEnum.Empty;
+                }
             }
 
             return needContinue;
