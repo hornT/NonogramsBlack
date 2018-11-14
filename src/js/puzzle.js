@@ -32,7 +32,7 @@ class Puzzle{
 
         do{
             needContinue = false;
-            
+
             for (let i = 0; i < this.RowCount; i++) {
                 needContinue |= this._solveRow(i);
             }
@@ -63,7 +63,7 @@ class Puzzle{
         return this.Cells.map(row => row[i]);
     }
 
-    _trySolve(groups, cells){
+    _trySolve(groups, cells){// TODO remove and use _findByTwoSide
         let needContinue = false;
 
         needContinue |= this._findByTwoSide(groups, cells);
@@ -101,7 +101,7 @@ class Puzzle{
 
         for(let i = 0; i < groups.length; i++){
             let group = groups[i];
-            index = this._findLeftIndex(group.Count, cells, index);
+            index = this._findLeftIndex(group.Count, i, cells, index);
 
             for(let j = 0; j < group.Count; j++){
                 side[j + index] = group.Index; // set group id
@@ -112,7 +112,7 @@ class Puzzle{
 
         return side;
     }
-    _findLeftIndex(groupLength, cells, fromIndex){
+    _findLeftIndex(groupLength, groupNum, cells, fromIndex){
 
         for(let i = fromIndex; i < cells.length - groupLength + 1; i++){
             
@@ -128,7 +128,14 @@ class Puzzle{
             if(founded === true){
                 const rigthCell = cells[i + groupLength];
                 if(rigthCell && rigthCell.State === StateEnum.Fill)
-                    founded = false;
+                    {
+                        founded = false;
+                        // make left cell as Empty
+                        const leftCell = cells[i];
+                        if(leftCell && groupNum === 0){ // TODO
+                            leftCell.State = StateEnum.Empty
+                        }
+                    }
             }
 
             if(founded === true)
